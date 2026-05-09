@@ -1,0 +1,36 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: schoolos-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: schoolos
+      POSTGRES_USER: school
+      POSTGRES_PASSWORD: school
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U school -d schoolos"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build: .
+    container_name: schoolos-app
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://school:school@postgres:5432/schoolos?schema=public
+      JWT_SECRET: replace-with-64-character-random-secret-for-production
+      NEXT_PUBLIC_APP_URL: https://angkasa.vertinova.id
+      UPLOAD_DIR: ./frontend/public/uploads
+    ports:
+      - "3000:3000"
+
+volumes:
+  postgres_data:

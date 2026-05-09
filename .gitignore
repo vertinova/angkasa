@@ -1,0 +1,14 @@
+node_modules
+.next
+frontend/.next
+.env
+.env*.local
+dist
+coverage
+uploads/*
+!uploads/.gitkeep
+frontend/public/uploads/*
+!frontend/public/uploads/.gitkeep
+*.log
+*.tsbuildinfo
+Dockerfile.local
