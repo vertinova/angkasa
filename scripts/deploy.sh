@@ -22,11 +22,16 @@ fi
 
 export DATABASE_URL JWT_SECRET JWT_EXPIRES_IN NEXT_PUBLIC_APP_URL UPLOAD_DIR RATE_LIMIT_WINDOW_MS RATE_LIMIT_MAX
 
+mkdir -p "${UPLOAD_DIR:-./frontend/public/uploads}"
+
 echo "[$(date -Is)] Installing dependencies"
 npm ci --ignore-scripts
 
 echo "[$(date -Is)] Generating Prisma client"
 npm run prisma:generate
+
+echo "[$(date -Is)] Applying database migrations"
+npx prisma migrate deploy --schema backend/prisma/schema.prisma
 
 echo "[$(date -Is)] Building application"
 npm run build
