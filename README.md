@@ -88,6 +88,17 @@ See [docs/API.md](docs/API.md).
 
 See [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
 
+## GitHub Webhook Deploy
+
+Webhook receiver tersedia di `scripts/github-webhook.cjs` dan deploy script di `scripts/deploy.sh`.
+
+Default production runtime:
+
+- App PM2 name: `angkasa`
+- App port: `3010`
+- Webhook port: `9010`
+- Webhook path: `/__github-webhook`
+
 ## Catatan Production
 
 Forgot/reset password sudah disediakan sebagai endpoint placeholder aman. Untuk production, tambahkan tabel reset token dan integrasi SMTP final. Untuk deployment multi-instance, ganti local upload ke object storage seperti S3/MinIO.
